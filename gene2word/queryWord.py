@@ -11,19 +11,9 @@ import zlib
 # for getting the environment and forking into the background
 import os
 
-# get the environment of the process
-dirname = os.getenv('GENEDIR', './')
-pidfile = os.environ.get('PIDFILE')
+# Load pickles from current dir
+dirname = os.path.dirname(__file__)
 
-# only fork and go into the background if we've been given a pidfile
-# (that is, don't fork if we run from the command line)
-if pidfile:
-	# fork the process, exiting the parent and leaving the child alive
-	if os.fork() > 0:
-		exit(0)
-
-	# write a pidfile to let people monitor our status
-	file(pidfile, "w").write("%s\n" % (os.getpid()))
 
 
 gene2word = cPickle.load(open(dirname + "gene2word.pkl"))
@@ -92,8 +82,8 @@ def lookupH(vectors, wordvector):
 		resC = [resC[k] for k in xrange(len(resC)) if k not in [i, j]]
 		resC.append(toAddC)
 	return resC
-			
-				
+
+
 
 def distance(ca, cb, vectors):
 	maxD = -1
@@ -168,7 +158,7 @@ def getWordMatrix(query):
 	res = dict()
 	for a in q:
 		for b in gene2word[a]:
-			if b[1] in stoplist: continue 
+			if b[1] in stoplist: continue
 			if b[1] not in res:
 				res[b[1]] = [(a, b[0])]
 			else:
@@ -216,7 +206,7 @@ def getPhraseVector(query, P, V, SI, word):
         resv = reduce(plusdot, tmpv)
         #res = dot(resv, SI)
         return str(len(q)) + " " + lookupPhrase(P, resv, word)
-	
+
 def getWordVector(query, U, V, SI):
 	query = re.sub("[^a-z0-9 ]", "", query.lower()).split()
 	q = []
@@ -260,7 +250,7 @@ def hier(query, U, V, SI):
 	resv = reduce(plusdot, tmpv)
 	wordTree = lookupH(U, resv)
 	return str(len(q)) + " " + getHTMLfromTree(wordTree, 255)
-	
+
 def getHTMLfromTree(t, c):
 	color = '#' + hex(294-int(c))[2:] + '8888'
 	if len(t[0]) == 1 and len(t[1]) == 1:
@@ -335,4 +325,3 @@ def main():
 
 if __name__ == "__main__":
         main()
-
