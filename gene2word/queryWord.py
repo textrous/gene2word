@@ -32,7 +32,7 @@ def cos(a, b):
     res = 0
     da = 0
     db = 0
-    for i in xrange(len(a)):
+    for i in range(len(a)):
         res += a[i] * b[i]
         da += a[i] * a[i]
         db += b[i] * b[i]
@@ -55,7 +55,7 @@ def lookupPhrase(vectors, phrasevector, word):
 
 def lookup(vectors, wordvector):
     res = []
-    for i in xrange(len(vectors)):
+    for i in range(len(vectors)):
         if id2word[i] in stoplist:
             continue
     res.append((cos(wordvector, vectors[i]), id2word[i]))
@@ -67,7 +67,7 @@ def lookup(vectors, wordvector):
 
 def lookupH(vectors, wordvector):
     res = []
-    for i in xrange(len(vectors)):
+    for i in range(len(vectors)):
         if id2word[i] in stoplist:
             continue
         res.append((cos(wordvector, vectors[i]), i))
@@ -78,16 +78,16 @@ def lookupH(vectors, wordvector):
     resC = map(lambda s: [(id2word[s[1]], str(int((s[0] / maxX) * 25)))], tmp)
     while len(res) > 2:
         biggest = (-1.0, -1, -1)
-        for i in xrange(len(res)):
-            for j in xrange(i + 1, len(res)):
+        for i in range(len(res)):
+            for j in range(i + 1, len(res)):
                 biggest = max(biggest, (distance(res[i], res[j], vectors), i, j))
         i = biggest[1]
         j = biggest[2]
         toAdd = res[i] + res[j]
-        res = [res[k] for k in xrange(len(res)) if k not in [i, j]]
+        res = [res[k] for k in range(len(res)) if k not in [i, j]]
         res.append(toAdd)
         toAddC = [resC[i], resC[j]]
-        resC = [resC[k] for k in xrange(len(resC)) if k not in [i, j]]
+        resC = [resC[k] for k in range(len(resC)) if k not in [i, j]]
         resC.append(toAddC)
     return resC
 
@@ -105,7 +105,7 @@ def lookupZ(vectors, wordvector):
     mean = 0.0
     variance = 0.0
     zscores = []
-    for i in xrange(len(vectors)):
+    for i in range(len(vectors)):
         if id2word[i] in stoplist:
             continue
         sim = cos(wordvector, vectors[i])
@@ -129,7 +129,7 @@ def lookupP(vectors, wordvector):
     mean = 0.0
     variance = 0.0
     zscores = []
-    for i in xrange(len(vectors)):
+    for i in range(len(vectors)):
         if id2word[i] in stoplist:
             continue
         sim = cos(wordvector, vectors[i])
@@ -413,14 +413,14 @@ def getHTMLfromTree(t, c):
 
 def plusdot(a, b):
     tmp = []
-    for i in xrange(len(a)):
+    for i in range(len(a)):
         tmp.append(a[i] + b[i])
     return tmp
 
 
 def dot(a, b):
     tmp = []
-    for i in xrange(len(a)):
+    for i in range(len(a)):
         tmp.append(a[i] * b[i])
     return tmp
 
