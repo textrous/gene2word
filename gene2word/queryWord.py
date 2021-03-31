@@ -58,7 +58,7 @@ def lookup(vectors, wordvector):
     for i in range(len(vectors)):
         if id2word[i] in stoplist:
             continue
-    res.append((cos(wordvector, vectors[i]), id2word[i]))
+        res.append((cos(wordvector, vectors[i]), id2word[i]))
     res.sort(key=lambda s: -s[0])
     res = map(lambda s: str(s[0]) + " " + str(s[1]), res[:100])
     res = " ".join(res)
