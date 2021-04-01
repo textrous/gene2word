@@ -227,11 +227,10 @@ def getPhraseVector(query, P, V, SI, word):
 
 def getWordVector(query, U, V, SI):
     query = re.sub("[^a-z0-9 ]", "", query.lower()).split()
-    q = [gene2id[gene] for gene in query if gene in gene2id]
+    q = [V[gene2id[gene]] for gene in query if gene in gene2id]
     if not q:
         return "0"
-    tmpv = [V[a] for a in q]
-    resv = reduce(plusdot, tmpv)
+    resv = reduce(plusdot, q)
     # res = dot(resv, SI)
     return str(len(q)) + " " + lookup(U, resv)
 
