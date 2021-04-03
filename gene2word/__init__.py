@@ -1,8 +1,10 @@
 __version__ = "2.0.0a0"
 
+import os, sys
 import abc, functools, numpy as np
 from ._source import DataSource
 from ._sqlite import SqliteSource
+from .exceptions import *
 
 
 class Translator(abc.ABC):
@@ -23,7 +25,7 @@ class Translator(abc.ABC):
 @functools.cache
 def get_translator(db=os.path.abspath("./g2w.db")):
     if not os.path.exists(db):
-        raise MissingSourceError("Could not open source file '%source%'.", source)
+        raise MissingSourceError("Could not open source file '%source%'.", db)
     source = SqliteSource(db)
     return Translator(source)
 
