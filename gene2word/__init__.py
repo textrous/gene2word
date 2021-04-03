@@ -7,19 +7,48 @@ from ._sqlite import SqliteSource
 from .exceptions import *
 
 
+class Translation(dict):
+    def __init__(self, genes, words, cosines):
+        super().__init__(zip(words, cosines))
+        self._genes = genes.copy()
+        self._words = words
+        self._cos = cosines
+
+    def __str__(self):
+        cname = self.__class__.__name__
+        return f"<{cname} ({len(self._genes)} genes) at {hex(id(self))}>"
+
+    def take(self, n):
+        return self.__class__(self._genes, self._words[:n], self._cos[:n])
+
+    def take_similar(self, similarity):
+        mask = self._cos >= similarity
+        return self.__class__(self._genes, self._words[mask], self._cos[mask])
+
+    def p_values(self):
+        import scipy.stats
+
+        return scipy.stats.norm.sf(np.abs(self.z_values())) * 2
+
+    def z_values(self):
+        import scipy.stats
+
+        return scipy.stats.zscore(self._cos)
+
+
 class Translator(abc.ABC):
     def __init__(self, data_source):
         self.data_source = data_source
 
     def translate(self, gene_set):
         from sklearn.metrics.pairwise import cosine_similarity
-
         V = self.data_source.get_gene_matrix(gene_set).sum(axis=0)
         U = self.data_source.get_word_matrix()
         cos = cosine_similarity(V.reshape(1, -1), U)[0]
         similars = np.argsort(-cos)
-        words = self.data_source.get_all_words()
-        return dict(zip(words[similars], cos[similars]))
+        cos = cos[similars]
+        words = self.data_source.get_all_words()[similars]
+        return Translation(gene_set, words, cos)
 
 
 @functools.cache
