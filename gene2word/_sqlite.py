@@ -20,6 +20,7 @@ class Gene(BaseModel):
 class Word(BaseModel):
     word = sqlite.CharField(index=True, constraints=[peewee.SQL('COLLATE NOCASE')])
     vector = sqlite.JSONField()
+    stoplisted = sqlite.BooleanField(index=True, default=False)
 
 
 class SqliteSource(DataSource):
@@ -44,8 +45,10 @@ class SqliteSource(DataSource):
         results = Word.select(Word.vector)
         if words is not None:
             results = results.where(Word.word << words)
-        elif hasattr(self, "_wm_cache"):
-            return self._wm_cache
+        else:
+            if hasattr(self, "_wm_cache"):
+                return self._wm_cache
+            results = results.where(~Word.stoplisted)
         matrix = self._fill_matrix(results)
         if words is None:
             self._wm_cache = matrix
@@ -61,7 +64,9 @@ class SqliteSource(DataSource):
             [{"gene": gene, "vector": vector} for gene, vector in zip(genes, vectors)]
         ).execute()
 
-    def import_words(self, words, vectors):
+    def import_words(self, words, vectors, stoplist_set=None):
+        if stoplist_set is None:
+            stoplist_set = set()
         Word.insert_many(
-            [{"word": word, "vector": vector} for word, vector in zip(words, vectors)]
+            [{"word": word, "vector": vector, "stoplisted": word in stoplist_set} for word, vector in zip(words, vectors)]
         ).execute()

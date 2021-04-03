@@ -20,6 +20,8 @@ if "words" in sys.argv:
     print("Unpickling words")
     words = pickle.load(open("gene2word/id2word.pkl", "rb"))
     U = pickle.load(open("gene2word/U.pkl", "rb"))
+    with open("gene2word/stoplist", "r") as f:
+        stoplist = set(map(lambda x: x.replace("\n", ""), f.readlines()))
     words = dict(sorted(words.items(), key=lambda kv: kv[0]))
     # Assert that data starts at 0, increases incrementally and that for each word there
     # is a corresponding vector in U.
@@ -27,4 +29,4 @@ if "words" in sys.argv:
     assert all(np.diff(list(words.keys())) == 1)
     assert len(words) == len(U)
     print("Importing words")
-    source.import_words(words.values(), U)
+    source.import_words(words.values(), U, stoplist_set=stoplist)
