@@ -21,7 +21,9 @@ class Translator(abc.ABC):
 
 
 @functools.cache
-def get_translator(db="g2w.db"):
+def get_translator(db=os.path.abspath("./g2w.db")):
+    if not os.path.exists(db):
+        raise MissingSourceError("Could not open source file '%source%'.", source)
     source = SqliteSource(db)
     return Translator(source)
 

@@ -5,7 +5,7 @@ import sys
 
 from setuptools import find_packages, setup
 
-requires = ["numpy", "scikit-learn", "peewee>=3.14.0"]
+requires = ["numpy", "scipy", "scikit-learn", "peewee>=3.14.0", "errr"]
 
 with open("gene2word/__init__.py", "r") as f:
     for line in f.readlines():
