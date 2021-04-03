@@ -30,6 +30,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requires,
+    extras_require={"dev": ["black", "wheel", "twine", "sphinx"]},
     keywords="gene gene2word geneset data mining NLP LSI semantic",
     classifiers=[
         "Development Status :: 4 - Beta",
