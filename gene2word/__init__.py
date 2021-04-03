@@ -19,10 +19,12 @@ class Translator(abc.ABC):
         words = self.data_source.get_all_words()
         return dict(zip(words[similars], cos[similars]))
 
+
 @functools.cache
 def get_translator(db="g2w.db"):
     source = SqliteSource(db)
     return Translator(source)
+
 
 def translate(gene_set):
     return get_translator().translate(gene_set)

@@ -13,12 +13,12 @@ class BaseModel(peewee.Model):
 
 
 class Gene(BaseModel):
-    gene = peewee.CharField(index=True, constraints=[peewee.SQL('COLLATE NOCASE')])
+    gene = peewee.CharField(index=True, constraints=[peewee.SQL("COLLATE NOCASE")])
     vector = sqlite.JSONField()
 
 
 class Word(BaseModel):
-    word = sqlite.CharField(index=True, constraints=[peewee.SQL('COLLATE NOCASE')])
+    word = sqlite.CharField(index=True, constraints=[peewee.SQL("COLLATE NOCASE")])
     vector = sqlite.JSONField()
     stoplisted = sqlite.BooleanField(index=True, default=False)
 
@@ -74,5 +74,8 @@ class SqliteSource(DataSource):
         if stoplist_set is None:
             stoplist_set = set()
         Word.insert_many(
-            [{"word": word, "vector": vector, "stoplisted": word in stoplist_set} for word, vector in zip(words, vectors)]
+            [
+                {"word": word, "vector": vector, "stoplisted": word in stoplist_set}
+                for word, vector in zip(words, vectors)
+            ]
         ).execute()
