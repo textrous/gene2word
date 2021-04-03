@@ -5,7 +5,15 @@ import sys
 
 from setuptools import find_packages, setup
 
-requires = ["numpy", "scipy", "scikit-learn", "peewee>=3.14.0", "errr", "py7zr", "appdirs"]
+requires = [
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "peewee>=3.14.0",
+    "errr",
+    "py7zr",
+    "appdirs",
+]
 
 with open("gene2word/__init__.py", "r") as f:
     for line in f.readlines():
@@ -40,7 +48,6 @@ setup(
         "Topic :: Scientific/Engineering",
         "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",

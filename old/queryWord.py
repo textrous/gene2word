@@ -233,7 +233,6 @@ def getWordVector(query, U, V, SI):
     if not q:
         return "0"
     resv = reduce(plusdot, q)
-    # res = dot(resv, SI)
     return lookup(U, resv)
 
 

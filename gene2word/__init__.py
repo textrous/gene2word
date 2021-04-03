@@ -45,6 +45,7 @@ class Translator(abc.ABC):
 
     def translate(self, gene_set):
         from sklearn.metrics.pairwise import cosine_similarity
+
         V = self.data_source.get_gene_matrix(gene_set).sum(axis=0)
         U = self.data_source.get_word_matrix()
         cos = cosine_similarity(V.reshape(1, -1), U)[0]
@@ -77,8 +78,11 @@ def _unpack_data(path):
     if not os.path.exists(data_archive):
         raise IOError(f"Package data missing! Could not find '{data_archive}'")
 
-    warnings.warn("First time use: unpacking database, this can take a while...", DeploymentWarning)
+    warnings.warn(
+        "First time use: unpacking database, this can take a while...",
+        DeploymentWarning,
+    )
     sys.stderr.flush()
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with py7zr.SevenZipFile(data_archive, 'r') as archive:
+    with py7zr.SevenZipFile(data_archive, "r") as archive:
         archive.extractall(path=os.path.dirname(path))
