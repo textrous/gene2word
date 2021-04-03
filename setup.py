@@ -5,7 +5,7 @@ import sys
 
 from setuptools import find_packages, setup
 
-requires = ["numpy", "scipy", "scikit-learn", "peewee>=3.14.0", "errr"]
+requires = ["numpy", "scipy", "scikit-learn", "peewee>=3.14.0", "errr", "py7zr", "appdirs"]
 
 with open("gene2word/__init__.py", "r") as f:
     for line in f.readlines():
@@ -29,15 +29,16 @@ setup(
     url="https://github.com/textrous/gene2word",
     packages=find_packages(),
     include_package_data=True,
+    package_data={"": ["*.7z"]},
     install_requires=requires,
     extras_require={"dev": ["black", "wheel", "twine", "sphinx"]},
     keywords="gene gene2word geneset data mining NLP LSI semantic",
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Science/Research",
         "Intended Audience :: Developers",
         "Topic :: Scientific/Engineering",
-        "License :: OSI Approved :: BSD License",
+        "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",

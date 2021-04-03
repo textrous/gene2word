@@ -1,10 +1,13 @@
 __version__ = "2.0.0a0"
 
-import os, sys
+import os, sys, appdirs
 import abc, functools, numpy as np
 from ._source import DataSource
 from ._sqlite import SqliteSource
 from .exceptions import *
+
+
+_dirs = appdirs.AppDirs("gene2word", "ReceptorBiologyLab")
 
 
 class Translation(dict):
@@ -52,7 +55,11 @@ class Translator(abc.ABC):
 
 
 @functools.cache
-def get_translator(db=os.path.abspath("./g2w.db")):
+def get_translator(db=None):
+    if db is None:
+        db = os.path.join(_dirs.user_cache_dir, "g2w.db")
+        if not os.path.exists(db):
+            _unpack_data(db)
     if not os.path.exists(db):
         raise MissingSourceError("Could not open source file '%source%'.", db)
     source = SqliteSource(db)
@@ -61,3 +68,17 @@ def get_translator(db=os.path.abspath("./g2w.db")):
 
 def translate(gene_set):
     return get_translator().translate(gene_set)
+
+
+def _unpack_data(path):
+    import warnings, py7zr
+
+    data_archive = os.path.join(os.path.dirname(__file__), "data.7z")
+    if not os.path.exists(data_archive):
+        raise IOError(f"Package data missing! Could not find '{data_archive}'")
+
+    warnings.warn("First time use: unpacking database, this can take a while...", DeploymentWarning)
+    sys.stderr.flush()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with py7zr.SevenZipFile(data_archive, 'r') as archive:
+        archive.extractall(path=os.path.dirname(path))

@@ -5,3 +5,6 @@ _t(globals(),
         MissingSourceError=_e("source"),
     )
 )
+
+
+class DeploymentWarning(Warning): pass
