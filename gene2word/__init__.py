@@ -1,5 +1,6 @@
 __version__ = "2.0.0a1"
 
+from . import _patches
 import os, sys, appdirs
 import abc, functools, numpy as np
 from ._source import DataSource
