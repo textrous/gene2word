@@ -44,11 +44,11 @@ class SqliteSource(DataSource):
         results = Word.select()
         if words is not  None:
             results = results.where(Word.word << words)
-        elif hasattr(self.get_word_matrix, "cache"):
+        elif hasattr(self, "_wm_cache"):
             return self.get_word_matrix.cache
         matrix = self._fill_matrix(results)
         if words is None:
-            self.get_word_matrix.cache = matrix
+            self._wm_cache = matrix
         return matrix
 
 
