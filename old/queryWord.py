@@ -16,16 +16,16 @@ import os
 dirname = os.path.dirname(__file__)
 
 
-gene2word = pickle.load(open(os.path.join(dirname, "gene2word.pkl"), "rb"))
-word2id = pickle.load(open(os.path.join(dirname, "word2id.pkl"), "rb"))
+# gene2word = pickle.load(open(os.path.join(dirname, "gene2word.pkl"), "rb"))
+# word2id = pickle.load(open(os.path.join(dirname, "word2id.pkl"), "rb"))
 id2word = pickle.load(open(os.path.join(dirname, "id2word.pkl"), "rb"))
 gene2id = pickle.load(open(os.path.join(dirname, "gene2id.pkl"), "rb"))
-P = pickle.load(open(os.path.join(dirname, "P.pkl"), "rb"))
+# P = pickle.load(open(os.path.join(dirname, "P.pkl"), "rb"))
 U = pickle.load(open(os.path.join(dirname, "U.pkl"), "rb"))
 V = pickle.load(open(os.path.join(dirname, "V.pkl"), "rb"))
 SI = pickle.load(open(os.path.join(dirname, "SI.pkl"), "rb"))
-pval = pickle.load(open(os.path.join(dirname, "pval.pkl"), "rb"))
-stoplist = set(open(os.path.join(dirname, "stoplist"), "rb").read().split())
+# pval = pickle.load(open(os.path.join(dirname, "pval.pkl"), "rb"))
+stoplist = set(open(os.path.join(dirname, "stoplist"), "r").read().split())
 
 
 def cos(a, b):
@@ -53,15 +53,17 @@ def lookupPhrase(vectors, phrasevector, word):
     return res
 
 
+#   lookup(U,       resv)
 def lookup(vectors, wordvector):
     res = []
     for i in range(len(vectors)):
+        n = id2word[i]
+        if n == "genomic":
+            print("Found genomic, in stoplist?", n in stoplist)
         if id2word[i] in stoplist:
             continue
-        res.append((cos(wordvector, vectors[i]), id2word[i]))
-    res.sort(key=lambda s: -s[0])
-    res = map(lambda s: str(s[0]) + " " + str(s[1]), res[:100])
-    res = " ".join(res)
+        res.append((id2word[i], cos(wordvector, vectors[i])))
+    res.sort(key=lambda s: -s[1])
     return res
 
 
@@ -232,7 +234,7 @@ def getWordVector(query, U, V, SI):
         return "0"
     resv = reduce(plusdot, q)
     # res = dot(resv, SI)
-    return str(len(q)) + " " + lookup(U, resv)
+    return lookup(U, resv)
 
 
 def getWordVectorZ(query, U, V, SI):
