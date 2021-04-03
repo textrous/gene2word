@@ -32,17 +32,17 @@ class SqliteSource(DataSource):
         count = results.count()
         results = results.tuples().iterator()
         matrix = np.empty((count, self.vector_size))
-        for i, (_, _, vector) in enumerate(results):
+        for i, (vector,) in enumerate(results):
             matrix[i] = vector
         return matrix
 
     def get_gene_matrix(self, gene_set):
-        results = Gene.select().where(Gene.gene << gene_set)
+        results = Gene.select(Gene.vector).where(Gene.gene << gene_set)
         return self._fill_matrix(results)
 
     def get_word_matrix(self, words=None):
-        results = Word.select()
-        if words is not  None:
+        results = Word.select(Word.vector)
+        if words is not None:
             results = results.where(Word.word << words)
         elif hasattr(self, "_wm_cache"):
             return self._wm_cache
