@@ -54,7 +54,7 @@ class SqliteSource(DataSource):
 
     @functools.cached_property
     def vector_size(self):
-        return len(Gene.first().vector)
+        return len(Gene.select().first().vector)
 
     def import_genes(self, genes, vectors):
         Gene.insert_many(
