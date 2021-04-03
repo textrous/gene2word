@@ -29,9 +29,10 @@ class SqliteSource(DataSource):
         self._db.create_tables([Gene, Word])
 
     def _fill_matrix(self, results):
+        count = results.count()
         results = results.tuples().iterator()
-        matrix = np.empty((len(results), self.vector_size))
-        for i, (_, vector) in enumerate(results):
+        matrix = np.empty((count, self.vector_size))
+        for i, (_, _, vector) in enumerate(results):
             matrix[i] = vector
         return matrix
 
