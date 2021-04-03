@@ -6,3 +6,4 @@ errr==1.0.0
 py7zr==0.14.1
 appdirs==1.4.4
 wheel==0.36.2
+coverage==5.4
