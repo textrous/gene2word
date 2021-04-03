@@ -57,9 +57,6 @@ def lookupPhrase(vectors, phrasevector, word):
 def lookup(vectors, wordvector):
     res = []
     for i in range(len(vectors)):
-        n = id2word[i]
-        if n == "genomic":
-            print("Found genomic, in stoplist?", n in stoplist)
         if id2word[i] in stoplist:
             continue
         res.append((id2word[i], cos(wordvector, vectors[i])))

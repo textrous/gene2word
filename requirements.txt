@@ -1,0 +1,8 @@
+numpy==1.20.2
+scipy==1.6.2
+scikit-learn==0.24.1
+peewee==3.14.4
+errr==1.0.0
+py7zr==0.14.1
+appdirs==1.4.4
+wheel==0.36.2
