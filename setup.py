@@ -39,7 +39,7 @@ setup(
     include_package_data=True,
     package_data={"": ["*.7z"]},
     install_requires=requires,
-    extras_require={"dev": ["black", "wheel", "twine", "sphinx"]},
+    extras_require={"dev": ["black", "wheel", "twine", "sphinx", "pre-commit"]},
     keywords="gene gene2word geneset data mining NLP LSI semantic",
     classifiers=[
         "Development Status :: 5 - Production/Stable",

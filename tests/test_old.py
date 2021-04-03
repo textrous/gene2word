@@ -27,7 +27,7 @@ telomerase_geneset = [
 
 
 class TestComparison(unittest.TestCase):
-    def compare(self, f1, f2, *args, eq=None):
+    def compare(self, f1, f2, *args, eq=None):  # pragma: nocover
         r1 = f1(*args)
         r2 = f2(*args)
         if eq is None:
