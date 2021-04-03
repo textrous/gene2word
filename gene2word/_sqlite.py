@@ -13,12 +13,12 @@ class BaseModel(peewee.Model):
 
 
 class Gene(BaseModel):
-    gene = peewee.CharField(constraints=[peewee.SQL('COLLATE NOCASE')])
+    gene = peewee.CharField(index=True, constraints=[peewee.SQL('COLLATE NOCASE')])
     vector = sqlite.JSONField()
 
 
 class Word(BaseModel):
-    word = sqlite.CharField(constraints=[peewee.SQL('COLLATE NOCASE')])
+    word = sqlite.CharField(index=True, constraints=[peewee.SQL('COLLATE NOCASE')])
     vector = sqlite.JSONField()
 
 
