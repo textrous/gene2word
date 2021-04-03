@@ -54,6 +54,12 @@ class SqliteSource(DataSource):
             self._wm_cache = matrix
         return matrix
 
+    @functools.cache
+    def get_all_words(self, include_stoplisted=False):
+        query = Word.select(Word.word)
+        if not include_stoplisted:
+            query = query.where(~Word.stoplisted)
+        return np.array([r[0] for r in query.tuples().iterator()])
 
     @functools.cached_property
     def vector_size(self):

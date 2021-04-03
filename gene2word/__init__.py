@@ -10,9 +10,14 @@ class Translator(abc.ABC):
         self.data_source = data_source
 
     def translate(self, gene_set):
+        from sklearn.metrics.pairwise import cosine_similarity
+
         V = self.data_source.get_gene_matrix(gene_set).sum(axis=0)
         U = self.data_source.get_word_matrix()
-        return V, U
+        cos = cosine_similarity(V.reshape(1, -1), U)[0]
+        similars = np.argsort(-cos)
+        words = self.data_source.get_all_words()
+        return dict(zip(words[similars], cos[similars]))
 
 @functools.cache
 def get_translator(db="g2w.db"):
