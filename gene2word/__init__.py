@@ -2,7 +2,8 @@ __version__ = "2.0.0a0"
 
 import abc
 from ._source import DataSource
-from ._sqlite import SqlLiteSource
+from ._sqlite import SqliteSource
+
 
 class Translator(abc.ABC):
     def __init__(self, data_source):
