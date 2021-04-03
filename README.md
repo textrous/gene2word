@@ -1,2 +1,2 @@
 # gene2word
-Python library that converts genesets into word clouds
+Python library that translates genesets into enriched semantic data.

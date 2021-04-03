@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Ignore pickled gene2word caches
-gene2word/*.pkl
+# Pickled gene2word caches
+old/*.pkl
+
+# Master dev database
+g2w.db
