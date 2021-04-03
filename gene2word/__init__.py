@@ -1,4 +1,4 @@
-__version__ = "2.0.0a0"
+__version__ = "2.0.0a1"
 
 import os, sys, appdirs
 import abc, functools, numpy as np
