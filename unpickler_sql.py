@@ -1,7 +1,7 @@
 import os, sys, pickle, numpy as np
 from gene2word import SqliteSource
 
-source = SqliteSource("test.db")
+source = SqliteSource("g2w.db")
 
 if "genes" in sys.argv:
     print("Unpickling genes")
